@@ -16,6 +16,8 @@ public class Pedido {
     public StatusPedido getStatus() {
         return this.status;
     }
+    public List<ItemPedido> getItem() { return this.item; }
+    public void getCliente() {return this.cliente; }
     
     // 4. Setter (permite que os outros MUDEM o status)
     public void setStatus(StatusPedido novoStatus) {

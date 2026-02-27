@@ -10,4 +10,6 @@ public class Cliente {
         this.endereco = endereco;
         this.telefone = telefone;
     } 
+
+    public void getCpf() { return this.cpf; }
 }

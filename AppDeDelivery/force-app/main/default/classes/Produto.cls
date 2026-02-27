@@ -6,4 +6,6 @@ public class Produto {
         this.nome = nome;
         this.preco = preco;
     }
+
+    public void getNome() {return this.nome; }
 }
