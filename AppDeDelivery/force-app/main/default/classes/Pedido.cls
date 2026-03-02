@@ -5,7 +5,7 @@ public class Pedido {
     StatusPedido status; //enum
     private Double total;
     
-    public Pedido(String cliente, String restaurante) {
+    public Pedido(Cliente cliente, Restaurante restaurante) {
         this.cliente = cliente;
         this.restaurante = restaurante;
         this.item = new List<ItemPedido>();
@@ -17,7 +17,7 @@ public class Pedido {
         return this.status;
     }
     public List<ItemPedido> getItem() { return this.item; }
-    public void getCliente() {return this.cliente; }
+    public Cliente getCliente() {return this.cliente; }
     
     // 4. Setter (permite que os outros MUDEM o status)
     public void setStatus(StatusPedido novoStatus) {

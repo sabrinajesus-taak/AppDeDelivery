@@ -4,7 +4,7 @@ public class Restaurante {
     CategoriaRestaurante categoria; //atributo do tipo enum
     private List<Produto> cardapio; //os produtos são adicionados nos testes
 
-    public Restaurante (String nome, String endereco, CategoriaRestaurante categoria, List<Produto> categoria ){
+    public Restaurante (String nome, String endereco, CategoriaRestaurante categoria){
         this.nome = nome;
         this.endereco = endereco;
         this.categoria = categoria;
@@ -23,26 +23,35 @@ public class Restaurante {
     }
 
     //metodos------------------------------
-    public void adicionarProduto(Produto produto) {
-        for (Produto p: cardapio) {
-            if (p.nome.toLowerCase() == produto.nome.toLowerCase()) {
-                System.debug(LoggingLevel.ERROR, 'Mensagem de erro: O produto ' + produto.getNome() + ' já existe.');
+    public void adicionarProduto(Produto novoProduto) {
+        Boolean jaExiste = false;
+
+        for (Produto p : cardapio) {
+            if (p.getNome().equalsIgnoreCase(novoProduto.getNome())) {
+                jaExiste = true;
+                break; // Se achou, para de procurar
             }
-        cardapio.add(produto);
-        System.debug('Produto Adicionado com sucesso.');
+        }
+
+    
+        if (jaExiste) {
+            System.debug(LoggingLevel.ERROR, 'O produto ' + novoProduto.getNome() + ' já existe.');
+        } else {
+            cardapio.add(novoProduto);
+            System.debug('Produto Adicionado com sucesso: ' + novoProduto.getNome());
         }
     }
 
     //-----------------------------------------
-    public String exibirCardapio() {
+    public void exibirCardapio() {
         for (Integer i = 0; i < cardapio.size(); i++) {
             Produto p = cardapio.get(i);
-            System.debug((i + 1) + p.getNome() + '- R$' + p.getPreco());
+            System.debug((i + 1) + '.' + p.getNome() + '- R$' + p.getPreco());
         }
     }
 
     //-------------------------------------------
-    public List<Produtos> buscarProdutos(String termoBusca) {
+    public List<Produto> buscarProdutos(String termoBusca) {
         List<Produto> produtosEncontrados = new List<Produto>();
 
         for (Produto p: cardapio) {
@@ -50,12 +59,14 @@ public class Restaurante {
                 produtosEncontrados.add(p);
             }
         }
-        if (produtosEncontrados.size() != 0) {
-            return produtosEncontrados;
-            System.debug(produtosEncontrados.getNome() + produtosEncontrados.getPreco());
+        if (!produtosEncontrados.isEmpty()) {
+            for(Produto p : produtosEncontrados) {
+                System.debug(p.getNome() + ' - ' + p.getPreco());
+            }
         } else {
-            return produtosEncontrados;
-            System.debug('Nenhum produto encontrado com essse termos de busca.');
+            System.debug('Nenhum produto encontrado.');
         }
+
+        return produtosEncontrados; 
     }
 }

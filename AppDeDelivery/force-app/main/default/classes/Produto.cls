@@ -7,5 +7,7 @@ public class Produto {
         this.preco = preco;
     }
 
-    public void getNome() {return this.nome; }
+    public String getNome() {return this.nome; }
+    public Decimal getPreco() {return this.preco; }
+    
 }

@@ -11,5 +11,5 @@ public class Cliente {
         this.telefone = telefone;
     } 
 
-    public void getCpf() { return this.cpf; }
+    public String getCpf() { return this.cpf;  }
 }

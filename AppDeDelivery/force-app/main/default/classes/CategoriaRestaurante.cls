@@ -1,7 +1,7 @@
 public enum CategoriaRestaurante {
     PIZZARIA,
     LANCHONETE,
-    JOAPONÊS,
+    JAPONES,
     HAMBURGUERIA,
     OUTROS
 }

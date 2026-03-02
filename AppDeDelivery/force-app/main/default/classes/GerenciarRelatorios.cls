@@ -7,27 +7,27 @@ public class GerenciarRelatorios {
         this.cpf = new List<String>();
     }
     
-    //metodos-----------------------
     public Map<Produto, Integer> gerarRelatorioProdutosMaisVendidos(List<Pedido> pedidos) {
-        Integer qtdItemPedido = 0;
         Map<Produto, Integer> totalQtdVendidas = new Map<Produto, Integer>();
         
-        for (Produto p: pedidos) {
-            for (ItemPedido ip: p.getItem()) {
-                totalQtdVendidas.put(
-                    ip.getProduto(),
-                (totalQtdVendidas.containsKey(ip.getProduto()) ?
-                    totalQtdVendidas.get(ip.getProduto())+ ip.getQuantidade() :
-                    ip.getQuantidade()
-                    )
-                    );
+        for (Pedido p : pedidos) { 
+            for (ItemPedido ip : p.getItem()) { 
+                Produto prod = ip.getProduto();
+                Integer qtd = ip.getQuantidade();
+                
+                if (totalQtdVendidas.containsKey(prod)) {
+                    totalQtdVendidas.put(prod, totalQtdVendidas.get(prod) + qtd);
+                } else {
+                    totalQtdVendidas.put(prod, qtd);
+                }
             }
         }
         
-        List<ProdutosWrapper> maisVendidos = gereanRankingDeProdutos(totalQtdVendidas);
+        List<ProdutosWrapper> maisVendidos = gerarRankingDeProdutos(totalQtdVendidas);
+        
         for (Integer i = 0; i < Math.min(3, maisVendidos.size()); i++) {
-            System.debug((i+2) + '.' + maisVendidos.get(i).getProduto().getNome() + ' - '
-                + maisVendidos.get(i).getQuantidade() + 'unidades');
+            System.debug((i + 1) + '. ' + maisVendidos.get(i).produto.getNome() + ' - '
+                + maisVendidos.get(i).quantidade + ' unidades');
         }
         
         return totalQtdVendidas;
@@ -35,14 +35,13 @@ public class GerenciarRelatorios {
     
     public List<ProdutosWrapper> gerarRankingDeProdutos(Map<Produto, Integer> total) {
         List<ProdutosWrapper> ranking = new List<ProdutosWrapper>();
-        for (Produto p: total.keySet()) {
+        for (Produto p : total.keySet()) {
             ranking.add(new ProdutosWrapper(p, total.get(p)));
         }
-        ranking.sort();
+        ranking.sort(); 
         return ranking;
     }
-    
-    
+
     public Map<String, List<Pedido>> gerarRelatorioPedidosPorCliente(List<Pedido> pedidos, List<String> cpfs) {
         Map<String, List<Pedido>> pedidosCliente = new Map<String, List<Pedido>>();
         
@@ -63,5 +62,21 @@ public class GerenciarRelatorios {
         
         return pedidosCliente;
     }
-    
+
+    //class wrapper------------------------------------------
+    public class ProdutosWrapper implements Comparable {
+        public Produto produto;
+        public Integer quantidade;
+
+        public ProdutosWrapper(Produto p, Integer q) {
+            this.produto = p;
+            this.quantidade = q;
+        }
+
+        public Integer compareTo(Object compareTo) {
+            ProdutosWrapper other = (ProdutosWrapper)compareTo;
+            if (this.quantidade == other.quantidade) return 0;
+            return (this.quantidade > other.quantidade) ? -1 : 1;
+        }
+    }
 }
