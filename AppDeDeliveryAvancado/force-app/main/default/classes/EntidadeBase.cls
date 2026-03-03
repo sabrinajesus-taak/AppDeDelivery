@@ -1,5 +1,5 @@
 public abstract class EntidadeBase{
-    private String Id;
+    private final String Id;
     
     public EntidadeBase() {
         //o generateAesKey cria o id em binario e o convert to hex converte para hexa
