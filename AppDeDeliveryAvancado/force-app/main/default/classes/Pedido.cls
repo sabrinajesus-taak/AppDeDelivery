@@ -34,14 +34,14 @@ public class Pedido extends EntidadeBase {
         if (existeItem != null) {
             existeItem.adicionarQuantidade(quantidade);
         } else {
-            this.itens.add(new Pedido(produto, quantidade));
+            this.itens.add(new ItemPedido(produto, quantidade));
         }
         
         recalcularTotal();
     }
     
     public void removerProduto(Produto produto) {
-        validarSePodeAlterar();
+        possivelAlterar();
         
         for (Integer i = 0; i < itens.size(); i++) {
             if (itens[i].getProduto().equals(produto)) {
@@ -70,22 +70,7 @@ public class Pedido extends EntidadeBase {
         }
     }
     
-    // --- MÉTODO DE CONFIRMAÇÃO  ---
-
-    public void confirmar() {
-        if (this.status != StatusPedido.CARRINHO) {
-            throw new BusinessException('Apenas pedidos no carrinho podem ser confirmados.');
-        }
-        
-        if (this.itens.isEmpty()) {
-            throw new BusinessException('Não é possível confirmar um pedido sem itens.');
-        }
-
-        recalcularTotal();
-        // Ao mudar o status, todos os métodos que chamam validarSePodeAlterar() 
-        // ficam automaticamente "travados".
-        this.status = StatusPedido.CONFIRMADO;
-    }
+    // --- --- --- 
 
     private ItemPedido encontrarItemPorProduto(Produto produto) {
         for (ItemPedido item : this.itens) {
@@ -96,11 +81,16 @@ public class Pedido extends EntidadeBase {
         return null;
     }
     
-    private void recalcularTotal(){
+    public void recalcularTotal(){
         this.total = Dinheiro.zero(); //zero o total antes de recalcular
         
         for (ItemPedido ip: itens) {
             this.total = this.total.somar(ip.getSubtotal());
         }
     }
+
+    public Dinheiro getTotal(){ return this.total; }
+    public StatusPedido getStatus() {return this.status; }
+    public void setStatus(StatusPedido novoStatus) { this.status = novoStatus; }
+    public List<ItemPedido> getItens() {return this.itens; }
 }

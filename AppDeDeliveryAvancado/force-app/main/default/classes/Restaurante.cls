@@ -4,7 +4,7 @@ public class Restaurante {
     CategoriaRestaurante categoria; //atributo do tipo enum
     private List<Produto> cardapio; //os produtos são adicionados nos testes
 
-    public Restaurante (String nome, String endereco, CategoriaRestaurante categoria){
+    public Restaurante (String nome, Endereco endereco, CategoriaRestaurante categoria){
         this.nome = nome;
         this.endereco = endereco;
         this.categoria = categoria;
@@ -46,7 +46,7 @@ public class Restaurante {
     public void exibirCardapio() {
         for (Integer i = 0; i < cardapio.size(); i++) {
             Produto p = cardapio.get(i);
-            System.debug((i + 1) + '.' + p.getNome() + '- R$' + p.getPreco());
+            System.debug((i + 1) + '.' + p.getNome() + '- R$' + p.getPrecoBase());
         }
     }
 
@@ -61,7 +61,7 @@ public class Restaurante {
         }
         if (!produtosEncontrados.isEmpty()) {
             for(Produto p : produtosEncontrados) {
-                System.debug(p.getNome() + ' - ' + p.getPreco());
+                System.debug(p.getNome() + ' - ' + p.getPrecoBase());
             }
         } else {
             System.debug('Nenhum produto encontrado.');

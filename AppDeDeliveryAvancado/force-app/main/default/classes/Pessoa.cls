@@ -10,6 +10,6 @@ public abstract class Pessoa extends EntidadeBase {
         this.documento = documento;
     }
 
-    public abstract Pessoa getTipoPessoa() ;
+    public abstract void getTipoPessoa() ;
 
 }

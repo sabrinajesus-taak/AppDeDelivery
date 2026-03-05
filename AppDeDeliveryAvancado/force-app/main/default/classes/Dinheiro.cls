@@ -20,14 +20,14 @@ public class Dinheiro {
     // Operaçoes----------------------
     
     public Dinheiro somar(Dinheiro outro) {
-        return new Dinheiro(this.valor + outro.valor);
+        return new Dinheiro(this.valor + outro.getValor());
     }
 
     public Dinheiro subtrair(Dinheiro outro) {
-        return new Dinheiro(this.valor - outro.valor);
+        return new Dinheiro(this.valor - outro.getValor());
     }
 
-    public Dinheiro multiplicar(Integer quantidade) {
+    public Dinheiro multiplicar(Decimal quantidade) {
         return new Dinheiro(this.valor * quantidade);
     }
 

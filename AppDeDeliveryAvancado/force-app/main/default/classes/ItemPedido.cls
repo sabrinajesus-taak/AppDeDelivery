@@ -1,25 +1,25 @@
 public class ItemPedido {
     private final Produto produto;
-    private int quantidade;
+    private Integer quantidade;
     private Dinheiro subtotal;
     
     // Construtor protegido: só o Pedido pode criar
-    ItemPedido(Produto produto, int quantidade) {
+    public ItemPedido(Produto produto, Integer quantidade) { //o certo é sem o public para somente pedido ter acesso
         if (produto == null) throw new BusinessException('Produto é obrigatório.');
         if (quantidade <= 0) throw new BusinessException('Quantidade deve ser maior que zero');
         this.produto = produto;
         this.quantidade = quantidade;
-        this.calcularSubtotal();
+        this.recalcularSubtotal();
     }
     
-    private void calcularSubtotal() {
-        this.subtotal = this.produto.getPreco().multiplicar(this.quantidade);
+    public void recalcularSubtotal() {
+        this.subtotal = this.produto.calcularPrecoFinal().multiplicar(this.quantidade);
     }
     
     // Método quando o produto já existe na lista
-    void adicionarQuantidade(int qtd) {
+    public void adicionarQuantidade(Integer qtd) { //o certo é sem o public para somente pedido ter acesso
         this.quantidade += qtd;
-        this.calcularSubtotal();
+        this.recalcularSubtotal();
     }
     
     public void definirNovaQuantidade(Integer novaQuantidade) {
@@ -27,7 +27,7 @@ public class ItemPedido {
             throw new BusinessException('A quantidade deve ser maior que zero.');
         }
         this.quantidade = novaQuantidade;
-        this.calcularSubtotal(); 
+        this.recalcularSubtotal(); 
     }
     
     
@@ -43,5 +43,5 @@ public class ItemPedido {
     // Getters
     public Dinheiro getSubtotal() { return subtotal; }
     public Produto getProduto() { return produto; }
-    public int getQuantidade() { return quantidade; }
+    public Integer getQuantidade() { return quantidade; }
 }
