@@ -2,7 +2,7 @@ public class Pedido extends EntidadeBase {
     private Cliente cliente;
     private Restaurante restaurante;
     private List<ItemPedido> itens;
-    StatusPedido status; //enum
+    private StatusPedido status; //enum
     private Dinheiro total;
     
     // Construtor principal
@@ -59,19 +59,39 @@ public class Pedido extends EntidadeBase {
             this.removerProduto(produto);
             return;
         }
-
+        
         ItemPedido itemExistente = encontrarItemPorProduto(produto);
         
         if (itemExistente != null) {
             itemExistente.definirNovaQuantidade(novaQuantidade);
             recalcularTotal();
         } else {
-            this.adicionarProduto(produto, novaQuantidade); // se o produto não estava no carrinho é adicionado. 
+            this.adicionarProduto(produto, novaQuantidade); // se o produto não estava no carrinho é adicionado.
         }
     }
     
-    // --- --- --- 
+    public void mudarStatusParaEmProcessamento() {
+        this.status = StatusPedido.EM_PROCESSAMENTO;
+    }
+    
+    public void mudarStatusParaCancelado(){
+        this.status = StatusPedido.CANCELADO;
+    }
+    
+    public void aplicarFrete(Dinheiro valorFrete) {
+        if (valorFrete == null) {
+            throw new BusinessException('O valor do frete não pode ser nulo.');
+        }
+        
+        this.total = this.total.somar(valorFrete);
+    }
 
+    public void mudarStatusparaEntregue(){
+        this.status = StatusPedido.ENTREGUE;
+    }
+    
+    // --- --- ---
+    
     private ItemPedido encontrarItemPorProduto(Produto produto) {
         for (ItemPedido item : this.itens) {
             if (item.getProduto().equals(produto)) {
@@ -88,9 +108,8 @@ public class Pedido extends EntidadeBase {
             this.total = this.total.somar(ip.getSubtotal());
         }
     }
-
+    
     public Dinheiro getTotal(){ return this.total; }
     public StatusPedido getStatus() {return this.status; }
-    public void setStatus(StatusPedido novoStatus) { this.status = novoStatus; }
-    public List<ItemPedido> getItens() {return this.itens; }
+    public List<ItemPedido> getItens() {return new List<ItemPedido>(this.itens);}
 }

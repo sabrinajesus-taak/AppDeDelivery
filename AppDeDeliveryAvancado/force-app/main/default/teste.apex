@@ -12,8 +12,10 @@ Documento cpfJoao = new Documento('123.456.789-00');
 Endereco enderecoJoao = new Endereco('Rua das Flores', '123', 'Bairro Centro', 'São Paulo');
 Cliente clienteJoao = new Cliente('João', cpfJoao, enderecoJoao, '123456789');
 Pedido pedido01 = new Pedido(clienteJoao);
+Time inicio = Time.newInstance(8, 0, 0, 0);
+Time fim = Time.newInstance(18, 0, 0, 0);
 
-pizza.alterarPolitica(new PoliticaPrecoPromocionalPorHorario(0952, 0955, 10.0));
+pizza.alterarPolitica(new PoliticaPrecoPromocionalPorHorario(inicio, fim, 10.0)); //funcionando ok
 suco.alterarPolitica( new PoliticaPrecoComDescontoPercentual(10.0));// funcioando
 pedido01.adicionarProduto(suco, 1);
 pedido01.adicionarProduto(pizza, 1);
